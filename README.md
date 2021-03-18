@@ -1,6 +1,6 @@
 # Dropbox-Stencil
 
-To use this code you need the [cryptography](https://cryptography.io/en/latest/) package. You should install it using pip with `python3 -m pip install cryptography`. 
+To use this code you need the [cryptography](https://cryptography.io/en/latest/) package. You should install it using pip with `python3 -m pip install -r requirements.txt`. 
 
 You should also use `python3`.
 
