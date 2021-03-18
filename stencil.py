@@ -2,10 +2,10 @@
 This file contains the stencil for your implementation. You **should** modify this file.
 """
 
-from crypto import *
-from util import *
-from dataserver import Dataserver, Memloc
-from keyserver import Keyserver
+from support.crypto import *
+from support.util import *
+from support.dataserver import Dataserver, Memloc
+from support.keyserver import Keyserver
 
 
 def create_user(username, password, dataserver, keyserver, memloc_factory):
