@@ -6,7 +6,7 @@ This file contains the dataserver API as well as the UUID memloc API. You should
 import uuid
 
 
-class MemlocFactory:
+class Memloc:
     """
     Implementation of client side memory location management using UUID.
     """
@@ -122,7 +122,7 @@ class Dataserver:
 
 
 dataserver = Dataserver()
-memloc = MemlocFactory()
+memloc = Memloc()
 
 
 # tests and usage examples
