@@ -3,7 +3,7 @@
 This file contains the Keyserver API. You should **not** modify this file.
 """
 
-from .crypto import AsmPublicKey
+from support.crypto import AsmPublicKey
 
 class Keyserver:
     """
@@ -59,32 +59,34 @@ class Keyserver:
         else:
             return None, "TagDoesNotExist"
 
+keyserver = Keyserver()
+
 
 # tests and usage examples
 if __name__ == "__main__":
-    from crypto import AsymmetricKeyGen
+    from support.crypto import AsymmetricKeyGen
 
-    ks = Keyserver()
+    # keyserver = Keyserver()
     pk1, _ = AsymmetricKeyGen()
     pk2, _ = AsymmetricKeyGen()
     pk3, _ = AsymmetricKeyGen()
 
-    err = ks.Set("pk1", pk1)
+    err = keyserver.Set("pk1", pk1)
     assert err is None
-    err = ks.Set("pk2", pk2)
+    err = keyserver.Set("pk2", pk2)
     assert err is None
 
-    pk1_copy, err = ks.Get("pk1")
+    pk1_copy, err = keyserver.Get("pk1")
 
     assert pk1 == pk1_copy
 
-    err = ks.Set("pk1", pk3)
+    err = keyserver.Set("pk1", pk3)
     assert err == "TagAlreadyTaken"
 
-    print("Expecting error messages...")
+    print("Expecting two error messages...")
     exceptionThrown = False
     try:
-        ks.Set(1, pk2)
+        keyserver.Set(1, pk2)
     except ValueError as e:
         exceptionThrown = True
 
@@ -92,7 +94,7 @@ if __name__ == "__main__":
 
     exceptionThrown = False
     try:
-        ks.Set("tag", 1)
+        keyserver.Set("tag", 1)
     except ValueError as e:
         exceptionThrown = True
 

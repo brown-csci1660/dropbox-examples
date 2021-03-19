@@ -8,19 +8,21 @@ import base64
 
 def print_bytes(b):
     """
-    A helper function to print bytes as base64.
+    A helper function to print bytes as base64. 
     """
     print(base64.b64encode(b).decode('utf-8'))
 
 def bytes_to_b64(b):
     """
-    A helper function that gives a base64 string representation of bytes
+    A helper function that gives a base64 string representation of bytes.
+    You probably do not need to use this directly.
     """
     return base64.b64encode(b).decode()
 
 def b64_to_bytes(b64):
     """
-    A helper function that returns the bytes given by base64 string
+    A helper function that returns the bytes given by base64 string.
+    You probably do not need to use this directly.
     """
     return base64.b64decode(b64)
 

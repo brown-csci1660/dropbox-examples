@@ -85,35 +85,46 @@ class Dataserver:
             return None, "ValDoesNotExist"
 
 
+dataserver = Dataserver()
+memloc = Memloc()
+
+
+# def ResetDataserver():
+#     """
+#     This function will wipe the dataserver and memloc. 
+#     YOU SHOULD NOT CALL THIS
+#     """
+#     global dataserver
+#     dataserver = Dataserver()
+#     global memloc
+#     memloc = Memloc()
+
 # tests and usage examples
 if __name__ == "__main__":
-    ml = Memloc()
-
-    loc1 = ml.Make()
+    loc1 = memloc.Make()
     print("random memloc:", loc1)
 
-    loc2 = ml.MakeFromBytes(b"0000000000000000")
+    loc2 = memloc.MakeFromBytes(b"0000000000000000")
     print("Specific memloc in hex:", loc2)
 
-    ds = Dataserver()
 
-    ds.Set(loc1, "Here is some data".encode())
-    ds.Set(loc2, "Here is some more data".encode())
+    dataserver.Set(loc1, "Here is some data".encode())
+    dataserver.Set(loc2, "Here is some more data".encode())
 
-    loc1_data, err = ds.Get(loc1)
+    loc1_data, err = dataserver.Get(loc1)
     assert loc1_data.decode() == "Here is some data" and err is None
 
-    loc2_data, err = ds.Get(loc2)
+    loc2_data, err = dataserver.Get(loc2)
     assert loc2_data.decode() == "Here is some more data" and err is None
 
     print("-------------------")
     print("error testing:")
     try:
-        ds.Set("invalid memloc", "valid data".encode())
+        dataserver.Set("invalid memloc", "valid data".encode())
     except Exception as e:
         print("exception raised correctly!\n")
 
     try:
-        ds.Set(loc1, "invalid data")
+        dataserver.Set(loc1, "invalid data")
     except Exception as e:
         print("exception raised correctly!\n")
