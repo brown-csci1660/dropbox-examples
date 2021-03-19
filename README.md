@@ -8,6 +8,8 @@ This is the stencil code for Dropbox. You will implement the functions defined i
 
 To use this code you need the [cryptography](https://cryptography.io/en/latest/) package. There are many ways to install python packages. If you are confident that you can install this package, you are free to do so however you wish. Note, however, that we will only provide direct technical support for the strategy we recommend here.
 
+This strategy will work both on your personal machine and on the department machines. 
+
 ### Installation with `pip` virtual environments
 
 > This is the recommended installation strategy
@@ -28,12 +30,47 @@ To use this code you need the [cryptography](https://cryptography.io/en/latest/)
 1. Make sure your virtual environment is active
 2. Make sure pip is up to date by running `pip install --upgrade pip`
 3. Inside the root directory of your repo, run `python3 -m pip install -r requirements.txt`
-4. 
 
-You should install it using pip with `python3 -m pip install -r requirements.txt`. 
+#### Testing the Installation
 
-You should also use `python3`.
+Inside the repo with your virtual environment active: 
 
-To run the stencil, run `python3 stencil.py`. This will not do anything but should not throw errors.
+1. Run `python stencil.py`
 
-To test the crypto library, run `python3 -m support.crypto` which also should not throw errors. 
+	- It should produce no output. If it exits cleanly, you are good to go.
+
+2. Run `python -m support.crypto`
+
+	- It should produce no output. If it exits cleanly, you are good to go.
+
+3. Run `python -m support.dataserver`
+
+	- It should produce the following output:
+
+		```
+		random memloc: b'<RANDOM STRING OF BYTES GOES HERE>'
+		Specific memloc in hex: b'0000000000000000'
+		-------------------
+		error testing:
+		ERROR: Memloc must be 16 bytes
+		exception raised correctly!
+		
+		ERROR: Datasever can only store raw bytes! You gave val of type <class 'str'>. Please serialize to bytes.
+		exception raised correctly!
+		```
+
+4. Run `python -m support.keyserver`
+
+	- It should produce the following output:
+
+		```
+		Expecting two error messages...
+		ERROR: Keyserver tags must be strings, not <class 'int'>
+		ERROR: Keyserver keys must of type asmPublicKey, not <class 'int'>
+		Success!
+		```
+
+		
+
+### 
+
