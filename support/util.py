@@ -6,27 +6,27 @@ This file contains some utility functions. You should **not** modify this file.
 import json
 import base64
 
-def print_bytes(b):
+def print_bytes(b: bytes) -> None:
     """
     A helper function to print bytes as base64. 
     """
     print(base64.b64encode(b).decode('utf-8'))
 
-def bytes_to_b64(b):
+def bytes_to_b64(b: bytes) -> str:
     """
     A helper function that gives a base64 string representation of bytes.
     You probably do not need to use this directly.
     """
     return base64.b64encode(b).decode()
 
-def b64_to_bytes(b64):
+def b64_to_bytes(b64: str) -> bytes:
     """
     A helper function that returns the bytes given by base64 string.
     You probably do not need to use this directly.
     """
     return base64.b64decode(b64)
 
-def __detect_tags(s):
+def __detect_tags(s: str):
     return s[:3] == "^^^" and s[-3:] == "$$$"
 
 def _prepare_bytes(o):
@@ -107,7 +107,7 @@ def _repair_bytes(o):
         print(f"ERROR: Undeserializable type {type(o)} detected! Valid types are [dict, list, int, str, float, bool, NoneType]")
         raise ValueError
 
-def obj_to_bytes(o):
+def obj_to_bytes(o: object) -> bytes:
     """
     A helper function that will serialize objects to bytes using JSON.
     It can serialize arbitrary nestings of lists and dictionaries containing ints, floats, booleans, strs, Nones, and bytes.
@@ -125,7 +125,7 @@ def obj_to_bytes(o):
     o = _prepare_bytes(o)
     return json.dumps(o).encode()
 
-def bytes_to_obj(b):
+def bytes_to_obj(b: bytes) -> object:
     """
     A helper function that will deserialize bytes to an object using JSON. See caveats in obj_to_bytes().
     """

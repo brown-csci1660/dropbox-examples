@@ -17,7 +17,7 @@ import os
 
 
 
-def check_type(arg, corr_type, param_name, func_name):
+def check_type(arg, corr_type, param_name: str, func_name: str) -> None:
     """
     A helper function for argument type checking.
     """
@@ -31,6 +31,7 @@ def check_type(arg, corr_type, param_name, func_name):
 class AsmPublicKey:
     """
     A wrapper around a public key. Allows for marshalling to and from bytes.
+    Do not call this class construtor directly. Instead use AsymmetricKeyGen or SignatureKeyGen.
     """
     def __init__(self, libPubKey):
         self.libPubKey = libPubKey
@@ -58,6 +59,7 @@ class AsmPublicKey:
 class AsmPrivateKey:
     """
     A wrapper around a private key.
+    Do not call this class construtor directly. Instead use AsymmetricKeyGen or SignatureKeyGen.
     """
     def __init__(self, libPrivKey):
         self.libPrivKey = libPrivKey
@@ -91,18 +93,16 @@ Note that the underlying data is the same for both sets of keys (RSA keypairs). 
 are only wrappers to help enforce that we should not use the same keys for signing as we do 
 for encryption.
 """
-class AsmEncryptionKey(AsmPublicKey):
+class AsymmetricEncryptKey(AsmPublicKey):
     pass
-class AsmDecryptionKey(AsmPrivateKey):
+class AsymmetricDecryptKey(AsmPrivateKey):
+    pass
+class SignatureVerifyKey(AsmPublicKey):
+    pass
+class SignatureSignKey(AsmPrivateKey):
     pass
 
-class AsmSignatureVerifyKey(AsmPublicKey):
-    pass
-class AsmSigningKey(AsmPrivateKey):
-    pass
-
-
-def AsymmetricKeyGen():
+def AsymmetricKeyGen() -> (AsymmetricEncryptKey, AsymmetricDecryptKey):
     """
      Generates a public-key pair for asymmetric encryption purposes.
 
@@ -112,19 +112,19 @@ def AsymmetricKeyGen():
     private_key = rsa.generate_private_key(public_exponent=65537,key_size=2048)
     public_key = private_key.public_key()
 
-    return AsmEncryptionKey(public_key), AsmDecryptionKey(private_key)
+    return AsymmetricEncryptKey(public_key), AsymmetricDecryptKey(private_key)
 
 
 
-def AsymmetricEncrypt(EncryptionKey: AsmEncryptionKey, plaintext: bytes):
+def AsymmetricEncrypt(EncryptionKey: AsymmetricEncryptKey, plaintext: bytes) -> bytes:
     """
      Using the public key, encrypt the plaintext
      Params:
         > PublicKey - AsmPublicKey
         > plaintext - bytes
-     Returns: Ciphertext object
+     Returns: ciphertext bytes
     """
-    check_type(EncryptionKey, AsmEncryptionKey, "EncryptionKey", "AsymmetricEncrypt")
+    check_type(EncryptionKey, AsymmetricEncryptKey, "EncryptionKey", "AsymmetricEncrypt")
     check_type(plaintext, bytes, "plaintext", "AsymmetricEncrypt")
 
     c_bytes = EncryptionKey.libPubKey.encrypt(plaintext, padding.OAEP(
@@ -137,15 +137,15 @@ def AsymmetricEncrypt(EncryptionKey: AsmEncryptionKey, plaintext: bytes):
 
 
 
-def AsymmetricDecrypt(DecryptionKey: AsmDecryptionKey, ciphertext: bytes):
+def AsymmetricDecrypt(DecryptionKey: AsymmetricDecryptKey, ciphertext: bytes) -> bytes:
     """
      Using the private key, decrypt the ciphertext
      Params:
         > PrivateKey - AsmPrivateKey
         > ciphertext - bytes
-     Returns: Public Key, Private Key
+     Returns: paintext (bytes)
     """
-    check_type(DecryptionKey, AsmDecryptionKey, "DecryptionKey", "AsymmetricDecrypt")
+    check_type(DecryptionKey, AsymmetricDecryptKey, "DecryptionKey", "AsymmetricDecrypt")
     check_type(ciphertext, bytes, "ciphertext", "AsymmetricDecrypt")
 
     plaintext = DecryptionKey.libPrivKey.decrypt(
@@ -160,7 +160,7 @@ def AsymmetricDecrypt(DecryptionKey: AsmDecryptionKey, ciphertext: bytes):
     return plaintext
 
 
-def SignatureKeyGen():
+def SignatureKeyGen() -> (SignatureVerifyKey, SignatureSignKey):
     """
     Generates a public-key pair for digital signature purposes.
     Params: None
@@ -169,20 +169,20 @@ def SignatureKeyGen():
     private_key = rsa.generate_private_key(public_exponent=65537,key_size=2048)
     public_key = private_key.public_key()
 
-    return AsmSignatureVerifyKey(public_key), AsmSigningKey(private_key)
+    return SignatureVerifyKey(public_key), SignatureSignKey(private_key)
 
 
 
-def SignatureSign(SigningKey: AsmSigningKey, data: bytes):
+def SignatureSign(SigningKey: SignatureSignKey, data: bytes) -> bytes:
     """
     Uses the private key key to sign the data. 
     Params:
-        > SigningKey - AsmSigningKey
+        > SigningKey - SignatureSignKey
         > data       - bytes
 
     Returns: signature (bytes)
     """
-    check_type(SigningKey, AsmSigningKey, "SigningKey", "SignatureSign")
+    check_type(SigningKey, SignatureSignKey, "SigningKey", "SignatureSign")
     check_type(data, bytes, "data", "SignatureSign")
 
     signature = SigningKey.libPrivKey.sign(
@@ -197,7 +197,7 @@ def SignatureSign(SigningKey: AsmSigningKey, data: bytes):
 
 
 
-def SignatureVerify(VerifyKey: AsmSignatureVerifyKey, data: bytes, signature: bytes):
+def SignatureVerify(VerifyKey: SignatureVerifyKey, data: bytes, signature: bytes) -> bool:
     """
     Uses the public key key to verify that signature is a valid signature for message.
     Params:
@@ -207,7 +207,7 @@ def SignatureVerify(VerifyKey: AsmSignatureVerifyKey, data: bytes, signature: by
 
     Returns: boolean conditional on signature matches
     """
-    check_type(VerifyKey, AsmSignatureVerifyKey, "VerifyKey", "SignatureVerify")
+    check_type(VerifyKey, SignatureVerifyKey, "VerifyKey", "SignatureVerify")
     check_type(data, bytes, "data", "SignatureVerify")
 
     try:
@@ -227,7 +227,7 @@ def SignatureVerify(VerifyKey: AsmSignatureVerifyKey, data: bytes, signature: by
 
 
 
-def Hash(data: bytes):
+def Hash(data: bytes) -> bytes:
     """
     Computes a cryptographically secure hash of data.
     Params:
@@ -242,7 +242,7 @@ def Hash(data: bytes):
     return digest.finalize()
 
 
-def HMAC(key: bytes, data: bytes):
+def HMAC(key: bytes, data: bytes) -> bytes:
     """
     Compute a SHA-512 hash-based message authentication code (HMAC) of data.
     Returns an error if key is not 128 bits (16 bytes).
@@ -264,23 +264,22 @@ def HMAC(key: bytes, data: bytes):
     h.update(data)
     return h.finalize()
 
-def HMAC_Verify(key: bytes, data: bytes, hmac: bytes):
+def HMACEqual(hmac1: bytes, hmac2: bytes) -> bool:
     """
     Check if an HMAC is correct in constant time wrt the number of matching bytes.
     This is important to avoid timing attacks.
 
     Params:
-        > key  - bytes
-        > data - bytes
-        > hmac - bytes
+        > hmac1 - bytes
+        > hmac2 - bytes
 
     Returns: Boolean conditional on if hmacs match
     """
-    return constant_time.bytes_eq(HMAC(key, data), hmac)
+    return constant_time.bytes_eq(hmac1, hmac2)
 
 
 
-def HashKDF(key: bytes, purpose: str):
+def HashKDF(key: bytes, purpose: str) -> bytes:
     """
     Takes a key and a purpose and returns a new key.
     HashKDF is a keyed hash function that can generate multiple keys from a single key.
@@ -303,15 +302,15 @@ def HashKDF(key: bytes, purpose: str):
         algorithm=hashes.SHA512(),
         length=len(key),
         salt=None,
-        info=None,
+        info=purpose.encode(),
     )
-    key = hkdf.derive(key + purpose.encode())
+    key = hkdf.derive(key)
     return key
 
 
 
 
-def PasswordKDF(password: str, salt: bytes, keyLen: int):
+def PasswordKDF(password: str, salt: bytes, keyLen: int) -> bytes:
     """
     Output some bytes that can be used as a symmetric key. The size of the output equals keyLen.
     A password-based key derivation function can be used to deterministically generate a cryptographic key
@@ -346,14 +345,14 @@ def PasswordKDF(password: str, salt: bytes, keyLen: int):
 
 
 
-def SymmetricEncrypt(key: bytes, iv: bytes, plaintext: bytes):
+def SymmetricEncrypt(key: bytes, iv: bytes, plaintext: bytes) -> bytes:
     """
     Encrypt the plaintext using AES-CBC mode with the provided key and IV.
     Pads plaintext using 128 bit blocks. Requires a valid size key.
     The ciphertext at the end will inlcude the IV as the last 16 bytes.
 
     Params:
-        > key - bytes (128, 192, or 256 bits)
+        > key - bytes (128 bits)
         > iv  - bytes (128 bits)
         > plaintext - bytes
 
@@ -362,6 +361,10 @@ def SymmetricEncrypt(key: bytes, iv: bytes, plaintext: bytes):
     check_type(key, bytes, "key", "SymmetricEncrypt")
     check_type(iv, bytes, "iv", "SymmetricEncrypt")
     check_type(plaintext, bytes, "plaintext", "SymmetricEncrypt")
+
+    if len(key) != 16:
+        raise ValueError
+    
 
     padder = sym_padding.PKCS7(128).padder()
     padded_data = padder.update(plaintext)
@@ -373,7 +376,7 @@ def SymmetricEncrypt(key: bytes, iv: bytes, plaintext: bytes):
 
     return ciphertext + iv
 
-def SymmetricDecrypt(key: bytes, ciphertext: bytes):
+def SymmetricDecrypt(key: bytes, ciphertext: bytes) -> bytes:
     """
     Decrypt the ciphertext using the key. The last 16 bytes of the ciphertext should be the IV.
 
@@ -382,7 +385,9 @@ def SymmetricDecrypt(key: bytes, ciphertext: bytes):
         > iv         - bytes
         > ciphertext - bytes
 
-    Returns: A plaintext, decrypted from the given ciphertext, key and iv (bytes)
+    Returns: A plaintext, decrypted from the given ciphertext, key and iv (bytes).
+             If the padding in wrong after decryption (which will happen if the wrong key is used),
+             then the decryption will be returned with the incorrect padding.
     """
     check_type(key, bytes, "key", "symmetricDecrypt")
     check_type(ciphertext, bytes, "ciphertext", "symmetricDecrypt")
@@ -394,15 +399,18 @@ def SymmetricDecrypt(key: bytes, ciphertext: bytes):
     decryptor = cipher.decryptor()
     plaintext = decryptor.update(ciphertext) + decryptor.finalize()
 
-    unpadder = sym_padding.PKCS7(128).unpadder()
-    plaintext = unpadder.update(plaintext)
-    plaintext += unpadder.finalize()
+    try:
+        unpadder = sym_padding.PKCS7(128).unpadder()
+        plaintext = unpadder.update(plaintext)
+        plaintext += unpadder.finalize()
+    except:
+        pass
 
     return plaintext
 
 
 
-def SecureRandom(num_bytes: int):
+def SecureRandom(num_bytes: int) -> bytes:
     """
     Given a length, return that many randomly generated bytes. Can be used for an IV or symmetric key.
 
@@ -417,6 +425,7 @@ def SecureRandom(num_bytes: int):
 
 
 if __name__ == '__main__':
+    
     # generate keys
     pk, sk = AsymmetricKeyGen()
 
@@ -425,8 +434,8 @@ if __name__ == '__main__':
     sk_bytes = bytes(sk)
 
     # generate key copies from bytes
-    pk2 = AsmEncryptionKey.from_bytes(pk_bytes)
-    sk2 = AsmDecryptionKey.from_bytes(sk_bytes)
+    pk2 = AsymmetricEncryptKey.from_bytes(pk_bytes)
+    sk2 = AsymmetricDecryptKey.from_bytes(sk_bytes)
 
     # encrypt the same message with the pub key and its copy
     cipher = AsymmetricEncrypt(pk, "CS166".encode())
@@ -440,7 +449,7 @@ if __name__ == '__main__':
 
     # compute a signature
     verify_key, signing_key = SignatureKeyGen()
-    data = ("CS166"*2000).encode()
+    data = "CS166".encode()
     signature = SignatureSign(signing_key, data)
     verification = SignatureVerify(verify_key, data, signature)
 
@@ -451,21 +460,27 @@ if __name__ == '__main__':
     assert(len(hash) == 64)
 
     # check HMACs
-    hmac_val = HMAC("key".encode(), "data".encode())
-    HMAC_Verify("key".encode(), "data".encode(), hmac_val)
+    hmac_val1 = HMAC("key".encode(), "data".encode())
+    hmac_val2 = HMAC("key".encode(), "data".encode())
+    HMACEqual(hmac_val1, hmac_val2)
 
     # check HashKDF
     hkdf1 = HashKDF("key".encode(), "CS166")
     hkdf2 = HashKDF("key".encode(), "CS166")
     assert(hkdf1 == hkdf2)
 
+    ## using different purposes causes different keys
+    hkdf3 = HashKDF("key".encode(), "purpose #1")
+    hkdf4 = HashKDF("key".encode(), "purpose #2")
+    assert(hkdf3 != hkdf4)
+
     # check PasswordKDF
     password = "this is a long and secure password. Here are some symbols: @#$%^&^*%^%&"
-    pkey = PasswordKDF(password, SecureRandom(16), 32)
-    assert(len(pkey) == 32)
+    pkey = PasswordKDF(password, SecureRandom(16), 16)
+    assert(len(pkey) == 16)
 
     # check symmetric encryption
-    key = SecureRandom(32)
+    key = SecureRandom(16)
     iv = SecureRandom(16)
     plaintext = "CS166 is the best class".encode()
 

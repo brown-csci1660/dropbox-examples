@@ -12,12 +12,12 @@ class Keyserver:
     def __init__(self):
         self.data = {}
 
-    def _validate(self, String, pk=None):
+    def _validate(self, identifier: str, pk=None) -> None:
         """
         Validates inputs. Not to be used externally.
         """
-        if not isinstance(String, str):
-            print(f"ERROR: Keyserver tags must be strings, not {type(String)}")
+        if not isinstance(identifier, str):
+            print(f"ERROR: Keyserver tags must be strings, not {type(identifier)}")
             raise ValueError
         if pk:
             if not isinstance(pk, AsmPublicKey):
@@ -27,7 +27,7 @@ class Keyserver:
                 raise ValueError
 
 
-    def Set(self, String, pk):
+    def Set(self, identifier: str, pk: AsmPublicKey) -> None:
         """
         Stores pubkey at a string.
 
@@ -35,29 +35,66 @@ class Keyserver:
             > String - str
             > pk     - AsmPublicKey
 
-        Returns: err, which is None iff Set succeeded
+        Returns: None
         """
-        self._validate(String, pk=pk)
-        if String in self.data:
-            return "TagAlreadyTaken"
+        self._validate(identifier, pk=pk)
+        if identifier in self.data:
+            raise ValueError("IdentifierAlreadyTaken")
 
-        self.data[String] = pk
+        self.data[identifier] = pk
 
 
-    def Get(self, String):
+    def Get(self, identifier: str) -> bytes:
         """
         Retrieves a pk from a String tag.
 
         Params:
             > String - str
 
-        Returns: (pk, err) where err is not None and pk is None iff String is being used.
+        Returns: public key or raises ValueError
         """
-        self._validate(String)
-        if String in self.data:
-            return self.data[String], None
+        self._validate(identifier)
+        if identifier in self.data:
+            return self.data[identifier]
         else:
-            return None, "TagDoesNotExist"
+            raise ValueError("IdentifierAlreadyTaken")
+    
+    def Delete(self, identifier: str) -> None:
+        """
+        Deletes a pk @ a String tag.
+
+        Params:
+            > String - str
+
+        Returns: None or raises ValueError
+        """
+        self._validate(identifier)
+        if identifier in self.data:
+            del self.data[identifier]
+        else:
+            raise ValueError("IdentifierAlreadyTaken")
+   
+   
+    ###################################
+    # The below functions are useful for testing but should NOT be used in stencil.py
+    ###################################
+    
+    def GetMap(self) -> dict:
+        """
+        Return the entire server contents as a dictionary 
+
+        Params: None
+        Returns: dict
+        """
+        return self.data
+    
+    def Clear(self) -> dict:
+        """
+        Delete the entire server contents
+        """
+        self.data = {}
+
+
 
 keyserver = Keyserver()
 
@@ -71,20 +108,25 @@ if __name__ == "__main__":
     pk2, _ = AsymmetricKeyGen()
     pk3, _ = AsymmetricKeyGen()
 
-    err = keyserver.Set("pk1", pk1)
-    assert err is None
-    err = keyserver.Set("pk2", pk2)
-    assert err is None
+    keyserver.Set("pk1", pk1)
+    keyserver.Set("pk2", pk2)
 
-    pk1_copy, err = keyserver.Get("pk1")
+    pk1_copy = keyserver.Get("pk1")
 
     assert pk1 == pk1_copy
 
-    err = keyserver.Set("pk1", pk3)
-    assert err == "TagAlreadyTaken"
+    exceptionThrown = False
+
+    try: 
+        keyserver.Set("pk1", pk3)
+    except ValueError as v:
+        ## no error message in this case
+         exceptionThrown = True
+        
+    assert exceptionThrown
 
     print("Expecting two error messages...")
-    exceptionThrown = False
+
     try:
         keyserver.Set(1, pk2)
     except ValueError as e:

@@ -6,11 +6,11 @@ This file contains the dataserver API as well as the UUID memloc API. You should
 import uuid
 
 
-class Memloc:
+class MemlocFactory:
     """
     Implementation of client side memory location management using UUID.
     """
-    def Make(self):
+    def Make(self) -> bytes:
         """
         Get random memloc.
 
@@ -20,7 +20,7 @@ class Memloc:
         return uuid.uuid4().bytes
 
 
-    def MakeFromBytes(self, bytes16):
+    def MakeFromBytes(self, bytes16: bytes) -> bytes:
         """
         Get specific memloc from 16 byte input
 
@@ -39,7 +39,7 @@ class Dataserver:
 
 
 
-    def _validate(self, memloc):
+    def _validate(self, memloc: bytes) -> None:
         """
         Validates the format of a memloc. Not to be used externally.
         """
@@ -48,12 +48,12 @@ class Dataserver:
             raise Exception("InvalidMemloc")
 
 
-    def Set(self, memloc, val):
+    def Set(self, memloc: bytes, val: bytes) -> None:
         """
         Stores a value at a memory location.
 
         Params:
-            > memloc - hex string, len 32
+            > memloc - bytes (16 bytes)
             > val    - bytes
 
         Returns: None
@@ -69,38 +69,66 @@ class Dataserver:
 
 
 
-    def Get(self, memloc):
+    def Get(self, memloc: bytes) -> bytes:
         """
         Retrieves a value from a memory location.
 
         Params:
-            > memloc - hex string, len 32
+            > memloc - bytes (16 bytes)
 
-        Returns: (value, err) where err is not None and value is None if memloc is not being used.
+        Returns: val or raises ValueError
         """
         self._validate(memloc)
         if memloc in self.data:
-            return self.data[memloc], None
+            return self.data[memloc]
         else:
-            return None, "ValDoesNotExist"
+            raise ValueError("ValDoesNotExist")
+    
+
+    def Delete(self, memloc: bytes) -> None: 
+        """
+        Delete a value from a memory location.
+
+        Params: 
+            > memloc - bytes (16)
+        
+        Returns: None or raises ValueError
+        """
+        self._validate(memloc)
+        if memloc in self.data:
+            del self.data[memloc]
+        else:
+            raise ValueError("ValDoesNotExist")
+    
+
+    ###################################
+    # The below functions are useful for testing but should NOT be used in stencil.py
+    ###################################
+    
+    def GetMap(self) -> dict:
+        """
+        Return the entire server contents as a dictionary 
+
+        Params: None
+        Returns: dict
+        """
+        return self.data
+    
+    def Clear(self) -> dict:
+        """
+        Delete the entire server contents
+        """
+        self.data = {}
 
 
 dataserver = Dataserver()
-memloc = Memloc()
+memloc = MemlocFactory()
 
-
-# def ResetDataserver():
-#     """
-#     This function will wipe the dataserver and memloc. 
-#     YOU SHOULD NOT CALL THIS
-#     """
-#     global dataserver
-#     dataserver = Dataserver()
-#     global memloc
-#     memloc = Memloc()
 
 # tests and usage examples
 if __name__ == "__main__":
+    memloc.MakeFromBytes(b'0'*100)
+    exit()
     loc1 = memloc.Make()
     print("random memloc:", loc1)
 
