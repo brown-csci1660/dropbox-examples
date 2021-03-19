@@ -20,14 +20,8 @@ from support.keyserver import keyserver
 
 class User:
     # TODO: add arguments as needed to initialize the User
-    def __init__(self, username: str, password: str) -> None:
-        # We are storing the username and password here even though the client is stateless. 
-        # Note that "stateless" does not mean that you cannot store any information. It means that
-        # the client, if restarted, can pick up where it left off given just a username and password.
-        # Storing the username and password (or information derived from the username and password) 
-        # meets this requirement. 
-        self.username = username
-        self.password = password
+    def __init__(self) -> None:
+        pass
 
     def upload_file(self, filename: str, data: bytes) -> None:
         """store data at filename. Preserve sharing, overwrite"""

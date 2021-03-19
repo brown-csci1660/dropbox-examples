@@ -28,12 +28,6 @@ class ClientTests(unittest.TestCase):
         u = create_user("usr", "pswd")
         u2 = authenticate_user("usr", "pswd")
         
-        self.assertEqual(u.password, "pswd")
-        self.assertEqual(u2.password, "pswd")
-       
-        self.assertEqual(u.username, "usr")
-        self.assertEqual(u2.username, "usr")
-
         self.assertEqual(vars(u), vars(u2))
 
 
