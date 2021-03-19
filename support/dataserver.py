@@ -127,8 +127,7 @@ memloc = Memloc()
 
 # tests and usage examples
 if __name__ == "__main__":
-    memloc.MakeFromBytes(b'0'*100)
-    exit()
+
     loc1 = memloc.Make()
     print("random memloc:", loc1)
 
@@ -139,11 +138,11 @@ if __name__ == "__main__":
     dataserver.Set(loc1, "Here is some data".encode())
     dataserver.Set(loc2, "Here is some more data".encode())
 
-    loc1_data, err = dataserver.Get(loc1)
-    assert loc1_data.decode() == "Here is some data" and err is None
+    loc1_data = dataserver.Get(loc1)
+    assert loc1_data.decode() == "Here is some data" 
 
-    loc2_data, err = dataserver.Get(loc2)
-    assert loc2_data.decode() == "Here is some more data" and err is None
+    loc2_data = dataserver.Get(loc2)
+    assert loc2_data.decode() == "Here is some more data" 
 
     print("-------------------")
     print("error testing:")
