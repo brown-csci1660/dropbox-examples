@@ -275,6 +275,9 @@ def HMACEqual(hmac1: bytes, hmac2: bytes) -> bool:
 
     Returns: Boolean conditional on if hmacs match
     """
+    check_type(hmac1, bytes, "hmac1", "HMACEqual")
+    check_type(hmac2, bytes, "hmac2", "HMACEqual")
+
     return constant_time.bytes_eq(hmac1, hmac2)
 
 
@@ -419,6 +422,7 @@ def SecureRandom(num_bytes: int) -> bytes:
 
     Returns: num_bytes random bytes
     """
+    check_type(num_bytes, int, "num_bytes", "SecureRandom")
     return os.urandom(num_bytes)
 
 
