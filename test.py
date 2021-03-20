@@ -2,7 +2,7 @@ import unittest
 import string
 import random
 
-from stencil import *
+from client import *
 
 import support.crypto as crypto
 import support.util as util
