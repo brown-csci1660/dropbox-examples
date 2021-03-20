@@ -6,20 +6,20 @@ This file contains some utility functions. You should **not** modify this file.
 import json
 import base64
 
-def print_bytes(b: bytes) -> None:
+def _print_bytes(b: bytes) -> None:
     """
     A helper function to print bytes as base64. 
     """
     print(base64.b64encode(b).decode('utf-8'))
 
-def bytes_to_b64(b: bytes) -> str:
+def __bytes_to_b64(b: bytes) -> str:
     """
     A helper function that gives a base64 string representation of bytes.
     You probably do not need to use this directly.
     """
     return base64.b64encode(b).decode()
 
-def b64_to_bytes(b64: str) -> bytes:
+def __b64_to_bytes(b64: str) -> bytes:
     """
     A helper function that returns the bytes given by base64 string.
     You probably do not need to use this directly.
@@ -31,16 +31,16 @@ def __detect_tags(s: str):
 
 def _prepare_bytes(o):
     """
-    A helper funtion for obj_to_bytes
+    A helper funtion for ObjToBytes
     """
     if isinstance(o, dict):
         result = {}
         for key, value in o.items():
             if isinstance(key, bytes):
 
-                key = "^^^" + bytes_to_b64(key) + "$$$"
+                key = "^^^" + __bytes_to_b64(key) + "$$$"
             if isinstance(value, bytes):
-                value = "^^^" + bytes_to_b64(value) + "$$$"
+                value = "^^^" + __bytes_to_b64(value) + "$$$"
             elif isinstance(value, dict) or isinstance(value, list):
                 value = _prepare_bytes(value)
             result[key] = value
@@ -50,14 +50,14 @@ def _prepare_bytes(o):
         result = []
         for item in o:
             if isinstance(item, bytes):
-                item = "^^^" + bytes_to_b64(item) + "$$$"
+                item = "^^^" + __bytes_to_b64(item) + "$$$"
             elif isinstance(item, dict) or isinstance(item, list):
                 item = _prepare_bytes(item)
             result.append(item)
         return result
 
     if isinstance(o, bytes):
-        return "^^^" + bytes_to_b64(o) + "$$$"
+        return "^^^" + __bytes_to_b64(o) + "$$$"
 
     elif isinstance(o, (int, str, float, bool)) or o is None:
         return o
@@ -67,17 +67,17 @@ def _prepare_bytes(o):
 
 def _repair_bytes(o):
     """
-    A helper funtion for obj_to_bytes
+    A helper funtion for ObjToBytes
     """
     if isinstance(o, dict):
         result = {}
         for key, value in o.items():
             if isinstance(key, str):
                 if __detect_tags(key):
-                    key = b64_to_bytes(key[3:-3])
+                    key = __b64_to_bytes(key[3:-3])
             if isinstance(value, str):
                 if __detect_tags(value):
-                    value = b64_to_bytes(value[3:-3])
+                    value = __b64_to_bytes(value[3:-3])
 
             elif isinstance(value, dict) or isinstance(value, list):
                 value = _repair_bytes(value)
@@ -89,7 +89,7 @@ def _repair_bytes(o):
         for item in o:
             if isinstance(item, str):
                 if __detect_tags(item):
-                    item = b64_to_bytes(item[3:-3])
+                    item = __b64_to_bytes(item[3:-3])
             elif isinstance(item, dict) or isinstance(item, list):
                 item = _repair_bytes(item)
             result.append(item)
@@ -97,7 +97,7 @@ def _repair_bytes(o):
 
     if isinstance(o, str):
         if __detect_tags(o):
-            return b64_to_bytes(o[3:-3])
+            return __b64_to_bytes(o[3:-3])
         else:
             return o
 
@@ -107,14 +107,14 @@ def _repair_bytes(o):
         print(f"ERROR: Undeserializable type {type(o)} detected! Valid types are [dict, list, int, str, float, bool, NoneType]")
         raise ValueError
 
-def obj_to_bytes(o: object) -> bytes:
+def ObjToBytes(o: object) -> bytes:
     """
     A helper function that will serialize objects to bytes using JSON.
     It can serialize arbitrary nestings of lists and dictionaries containing ints, floats, booleans, strs, Nones, and bytes.
 
     A note on bytes and strings:
     This function encodes all bytes as base64 strings in order to be json compliant.
-    The complimentary function, bytes_to_obj, will decode everything it detects to be a base64 string
+    The complimentary function, BytesToObj, will decode everything it detects to be a base64 string
     back to bytes. If you store a base64 formatted string, it would also be decoded to bytes.
 
     To alleviate this, the base64 string are prefixed with "^^^" and suffixed with "$$$", and the function
@@ -125,9 +125,9 @@ def obj_to_bytes(o: object) -> bytes:
     o = _prepare_bytes(o)
     return json.dumps(o).encode()
 
-def bytes_to_obj(b: bytes) -> object:
+def BytesToObj(b: bytes) -> object:
     """
-    A helper function that will deserialize bytes to an object using JSON. See caveats in obj_to_bytes().
+    A helper function that will deserialize bytes to an object using JSON. See caveats in ObjToBytes().
     """
     obj = json.loads(b.decode())
     return _repair_bytes(obj)

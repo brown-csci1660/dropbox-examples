@@ -77,17 +77,17 @@ if __name__ == "__main__":
     ## Storing a list
     loc = memloc.Make()
     l = ["this", "is", "a", "list", "of", "strings", "and", "nums:", 1, 2, 3]
-    dataserver.Set(loc, util.obj_to_bytes(l))
+    dataserver.Set(loc, util.ObjToBytes(l))
     l_bytes = dataserver.Get(loc)
-    l2 = util.bytes_to_obj(l_bytes)
+    l2 = util.BytesToObj(l_bytes)
     assert(l == l2)
 
     ## Storing a dict
     loc = memloc.Make()
     d = {"k1": "v1", "k2": 2, "k3": "v3"}
-    dataserver.Set(loc, util.obj_to_bytes(d))
+    dataserver.Set(loc, util.ObjToBytes(d))
     d_bytes = dataserver.Get(loc)
-    d2 = util.bytes_to_obj(d_bytes)
+    d2 = util.BytesToObj(d_bytes)
     assert(d == d2)
 
     ## Storing a complex, nested data structure    
@@ -98,9 +98,9 @@ if __name__ == "__main__":
         "k7": [b'bytes', b'will', b'also', b'work!'],
         b'k8': {b'look': "keys can be bytes too!"}
         }
-    dataserver.Set(loc, util.obj_to_bytes(c))
+    dataserver.Set(loc, util.ObjToBytes(c))
     c_bytes  = dataserver.Get(loc)
-    c2 = util.bytes_to_obj(c_bytes)
+    c2 = util.BytesToObj(c_bytes)
     assert(c == c2)
 
     ## raising errors
