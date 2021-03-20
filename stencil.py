@@ -44,7 +44,7 @@ class User:
         raise util.DropboxError("Not Implemented")
 
     def recieve_file(self, filename: str, sender: str) -> None:
-        """accepts a filrname and a sender and takes access of the file @ filename. Raise an error if the file cannot be recieved"""
+        """accepts a filename and a sender and takes access of the file @ filename. Raise an error if the file cannot be recieved"""
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
 
