@@ -8,7 +8,7 @@ This is the stencil code for Dropbox. You will implement the functions defined i
 
 To use this code you need the [cryptography](https://cryptography.io/en/latest/) package. There are many ways to install python packages. If you are confident that you can install this package, you are free to do so however you wish. Note, however, that we will only provide direct technical support for the strategy we recommend here.
 
-This strategy will work both on your personal machine and on the department machines. 
+> Note: This strategy applies to only your personal machine! If you are working on a department machine, please see [this](##Department Machines) section
 
 ### Installation with `pip` virtual environments
 
@@ -72,5 +72,7 @@ Inside the repo with your virtual environment active:
 
 		
 
-### 
+## Department Machines
+
+A properly configured virtual enviroment is available for use on the department machines. To use the virtual enviroment, run `source cs166_dropbox_env`. 
 
