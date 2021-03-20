@@ -94,7 +94,9 @@ if __name__ == "__main__":
     loc = memloc.Make()
     c = {
         "k1": [{"k2": 2, "k3": [1,2,3], "k4": {"k5": [4,5,6]}}, "string", 12345], 
-        "k6": ["this", "is", "a", "list", "of", "strings"]
+        "k6": ["this", "is", "a", "list", "of", "strings"],
+        "k7": [b'bytes', b'will', b'also', b'work!'],
+        b'k8': {b'look': "keys can be bytes too!"}
         }
     dataserver.Set(loc, util.obj_to_bytes(c))
     c_bytes  = dataserver.Get(loc)

@@ -22,7 +22,7 @@ class Keyserver:
         if pk:
             if not isinstance(pk, AsmPublicKey):
                 print(
-                    f"ERROR: Keyserver keys must of type asmPublicKey, not {type(pk)}"
+                    f"ERROR: Keyserver keys must of type AsmPublicKey, not {type(pk)}"
                 )
                 raise ValueError
 
@@ -101,11 +101,11 @@ keyserver = Keyserver()
 
 # tests and usage examples
 if __name__ == "__main__":
-    from support.crypto import AsymmetricKeyGen
+    from support.crypto import AsymmetricKeyGen, SignatureKeyGen
 
     # keyserver = Keyserver()
     pk1, _ = AsymmetricKeyGen()
-    pk2, _ = AsymmetricKeyGen()
+    pk2, _ = SignatureKeyGen()
     pk3, _ = AsymmetricKeyGen()
 
     keyserver.Set("pk1", pk1)
