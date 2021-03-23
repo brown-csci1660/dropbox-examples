@@ -1,7 +1,14 @@
-# wschor, Spring 2021
-"""
-This file contains the Keyserver API. You should **not** modify this file.
-"""
+##
+## keyserver.py: Dropbox @ CSCI1660 (Spring 2021)
+##
+## This file contains the keyserver API.
+##
+## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+##
+## ---
+##
+## Author: wschor
+##
 
 from support.crypto import AsmPublicKey
 
@@ -26,7 +33,6 @@ class Keyserver:
                 )
                 raise ValueError
 
-
     def Set(self, identifier: str, pk: AsmPublicKey) -> None:
         """
         Stores pubkey at a string.
@@ -43,7 +49,6 @@ class Keyserver:
 
         self.data[identifier] = pk
 
-
     def Get(self, identifier: str) -> bytes:
         """
         Retrieves a pk from a String tag.
@@ -58,7 +63,7 @@ class Keyserver:
             return self.data[identifier]
         else:
             raise ValueError("IdentifierAlreadyTaken")
-    
+
     def Delete(self, identifier: str) -> None:
         """
         Deletes a pk @ a String tag.
@@ -73,31 +78,27 @@ class Keyserver:
             del self.data[identifier]
         else:
             raise ValueError("IdentifierAlreadyTaken")
-   
-   
+
     ###################################
     # The below functions are useful for testing but should NOT be used in stencil.py
     ###################################
-    
+
     def GetMap(self) -> dict:
         """
-        Return the entire server contents as a dictionary 
+        Return the entire server contents as a dictionary
 
         Params: None
         Returns: dict
         """
         return self.data
-    
+
     def Clear(self) -> dict:
         """
         Delete the entire server contents
         """
         self.data = {}
 
-
-
 keyserver = Keyserver()
-
 
 # tests and usage examples
 if __name__ == "__main__":
@@ -117,12 +118,12 @@ if __name__ == "__main__":
 
     exceptionThrown = False
 
-    try: 
+    try:
         keyserver.Set("pk1", pk3)
     except ValueError as v:
         ## no error message in this case
          exceptionThrown = True
-        
+
     assert exceptionThrown
 
     print("Expecting two error messages...")
