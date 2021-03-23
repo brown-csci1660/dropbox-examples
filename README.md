@@ -1,20 +1,23 @@
-# Dropbox-Stencil
+# dropbox
 
-This is the stencil code for Dropbox. You will implement the functions defined in `client.py`. All the code you write should be in `client.py` . You should use the libraries provided in `support/`. The support code is imported in `client.py`. It will be helpful to review the function definitions and comments in the support code files. The crypto library you will use is defined in `support/crypto.py` and relies on the [cryptography](https://cryptography.io/en/latest/) package (**Note**: you **should not** use this package directly in any code you write. Instead, use the API provided by the support code). The servers for which you are implementing a client are defined in `support/dataserver.py` and `support/keyserver.py`. Finally, `support/util.py` contains several useful functions for working with bytes. There is example usage of all libraries at the end of each file. The example usage for the `util` library is included at the bottom of `client.py`, where it is shown in conjunction with the `dataserver` library. 
+This is the stencil code for Dropbox. You will implement the functions defined in `client.py`. Some notes:
 
-
+- All the code you write should be in `client.py`; our provided APIs are already imported in `client.py` for you. 
+- While you are not permitted to edit the support code files, you may find it helpful to review the comments in the support code files. The crypto library you will use is defined in `support/crypto.py`. The servers for which you are implementing a client are defined in `support/dataserver.py` and `support/keyserver.py`. Finally, `support/util.py` contains several useful functions for working with bytes. There is example usage of all libraries at the end of each support code file. 
 
 ## Installation
 
-To use this code you need the [cryptography](https://cryptography.io/en/latest/) package. There are many ways to install python packages. If you are confident that you can install this package, you are free to do so however you wish. Note, however, that we will only provide direct technical support for the strategy we recommend here.
+To install the support code, you will need the [cryptography](https://cryptography.io/en/latest/) package. (**Note**: You **should not** use this package directly in any code you write. Instead, use the API provided by the support code documented in the Dropbox Wiki.) There are many ways to install python packages. If you are confident that you can install this package, you are free to do so however you wish. However, the TAs will only provide direct technical support for the strategy we recommend here.
 
-> Note: This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section
+> *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
 
-### Installation with `pip` virtual environments
+### Recommended Installation: `pip` virtual environments
 
-> This is the recommended installation strategy
+Follow the instructions in the section below to set up your local environment for working on the project.
 
 #### Virtual Environment
+
+First, create a virtual environment using the following strategy:
 
 1. Ensure you are using `python3.7` or above by running `python3 --version`
 2. Clone this repo 
@@ -25,7 +28,9 @@ To use this code you need the [cryptography](https://cryptography.io/en/latest/)
 6. To confirm that the virtual environment has been activated, run `which python`. The resulting path should end `.env/bin/python`
 7. Once you are done working on the project, you can run `deactivate` to leave the virtual environment. When you return to the project, you should run `source .env/bin/activate` again. 
 
-#### Installing the library
+#### Installing Necessary Dependencies
+
+Then, while inside of the virtual environment, install the necessary dependencies:
 
 1. Make sure your virtual environment is active
 2. Make sure pip is up to date by running `pip install --upgrade pip`
@@ -33,7 +38,7 @@ To use this code you need the [cryptography](https://cryptography.io/en/latest/)
 
 #### Testing the Installation
 
-Inside the repo with your virtual environment active: 
+You can then test your local environment setup with the following comamnds. First, make sure your current working directory is the directory containing your Dropbox repo; also, make sure your virtual environment is activated. Then:
 
 1. Run `python client.py`
 
@@ -74,10 +79,16 @@ Inside the repo with your virtual environment active:
 
 ## Testing
 
-You should write tests in `test_client.py`. There are a few example tests in `test_client.py` as well as a stencil for your tests. To run the tests you can run `python -m unittest`. The tests will be run in alphabetical order. If you run the tests on the stencil code (with no changes), it will run six tests, five of which fail. 
+You should write tests in `test_client.py`. There are a few example tests in `test_client.py` as well as a stencil for your tests. To run the tests you can run 
 
+```
+python -m unittest
+```
+
+(This is how we will run our tests against your implementation.)
+
+The tests will be run in alphabetical order. If you run the tests on the stencil code (with no changes), it will run six tests, five of which should fail. 
 
 ## Department Machines
 
-A properly configured virtual enviroment is available for use on the department machines. To use the virtual enviroment, run `source cs166_dropbox_env`. 
-
+If you are unable to (or don't want to) install the dependencies locally, a properly configured virtual enviroment is available for use on the department machines. To use the virtual enviroment, run `source cs166_dropbox_env`. 
