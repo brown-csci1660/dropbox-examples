@@ -11,7 +11,20 @@ To install the support code, you will need to install some dependencies (which a
 
 > *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
 
-### Recommended Installation: `pip` virtual environments
+### Recommended Installation Option 1: Repl.it
+
+> *Note*: This is an experimental installation option for the project. The TAs may not be able to provide technical support for this option; however, if you can get it to work, it's *very cool* and particularly convenient for working with your partner remotely.
+
+If you don't want to install dependencies locally, you can try an *experimental* working option where you work on your project code *entirely within your browser*. To do this:
+
+- Click on the **Work in Repl.it** button at the top of this file. This will open the repository code in Repl.it, a free online IDE. (You may need to create a Repl.it account if you don't have one already at this point.)
+- That's it! Repl.it will open up a virtual machine entirely within your browser and install all of your dependencies into the virtual machine.
+
+You can then run Bash commands in the "Console" on the right-hand side of the screen. You should then test that the installation worked via the `Testing the Installation` instructions below; you can then run your test cases in the "Console" using the `Testing` instructions below. To commit changes to the GitHub repository, use the "Version Control" button on the left-hand side of the screen. Refer to the [Repl.it Quickstart Guide](https://docs.replit.com/repls/quick-start#the-repl-environment) for more information.
+
+Note that any time you (or your partner) want to work on your project in Repl.it, you should click the "Work in Repl.it" button from the repository page, not directly from your Repl.it account. This allows both you and your partner to work within the *same* Repl.it instance, which allows you to collaborate "Google Docs"-style.
+
+### Recommended Installation Option 2: `pip` virtual environments
 
 Follow the instructions in the section below to set up your local environment for working on the project.
 
