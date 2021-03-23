@@ -83,15 +83,15 @@ class Dataserver:
             return self.data[memloc]
         else:
             raise ValueError("ValDoesNotExist")
-    
 
-    def Delete(self, memloc: bytes) -> None: 
+
+    def Delete(self, memloc: bytes) -> None:
         """
         Delete a value from a memory location.
 
-        Params: 
+        Params:
             > memloc - bytes (16)
-        
+
         Returns: None or raises ValueError
         """
         self._validate(memloc)
@@ -99,31 +99,29 @@ class Dataserver:
             del self.data[memloc]
         else:
             raise ValueError("ValDoesNotExist")
-    
+
 
     ###################################
     # The below functions are useful for testing but should NOT be used in stencil.py
     ###################################
-    
+
     def GetMap(self) -> dict:
         """
-        Return the entire server contents as a dictionary 
+        Return the entire server contents as a dictionary
 
         Params: None
         Returns: dict
         """
         return self.data
-    
+
     def Clear(self) -> dict:
         """
         Delete the entire server contents
         """
         self.data = {}
 
-
 dataserver = Dataserver()
 memloc = Memloc()
-
 
 # tests and usage examples
 if __name__ == "__main__":
@@ -134,15 +132,14 @@ if __name__ == "__main__":
     loc2 = memloc.MakeFromBytes(b"0000000000000000")
     print("Specific memloc in hex:", loc2)
 
-
     dataserver.Set(loc1, "Here is some data".encode())
     dataserver.Set(loc2, "Here is some more data".encode())
 
     loc1_data = dataserver.Get(loc1)
-    assert loc1_data.decode() == "Here is some data" 
+    assert loc1_data.decode() == "Here is some data"
 
     loc2_data = dataserver.Get(loc2)
-    assert loc2_data.decode() == "Here is some more data" 
+    assert loc2_data.decode() == "Here is some more data"
 
     print("-------------------")
     print("error testing:")
