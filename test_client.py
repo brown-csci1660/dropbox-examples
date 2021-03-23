@@ -1,5 +1,5 @@
 ##
-## test.py: Dropbox @ CSCI1660 (Spring 2021)
+## test_client.py: Dropbox @ CSCI1660 (Spring 2021)
 ##
 ## This is the file where all of your test cases for your Dropbox client
 ## implementation must go.
@@ -27,8 +27,8 @@ from client import create_user, authenticate_user, User
 class ClientTests(unittest.TestCase):
     def setUp(self):
         """
-        This function is automatically called before every test is run. It clears the
-        dataserver and keyserver to a clean state for each test case.
+        This function is automatically called before every test is run. It
+        clears the dataserver and keyserver to a clean state for each test case.
         """
         dataserver.Clear()
         keyserver.Clear()
@@ -91,9 +91,10 @@ class ClientTests(unittest.TestCase):
     def test_the_next_test(self):
         """
         Implement more tests by defining more functions like this one!
-        Note that functions have to start with the word "test" to be recognized.
-        They can use a "self.Assert___" statement or can just run a series of commands.
-        If there is no Assert statment, then the test will fail if and only if an error is raised.
+
+        Functions have to start with the word "test" to be recognized. Refer to
+        the Python `unittest` API for more information on how to write test
+        cases: https://docs.python.org/3/library/unittest.html
         """
         self.assertTrue(True)
 

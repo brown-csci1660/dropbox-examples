@@ -1,10 +1,16 @@
-# wschor, Spring 2021
-"""
-This file contains the dataserver API as well as the UUID memloc API. You should **not** modify this file.
-"""
+##
+## dataserver.py: Dropbox @ CSCI1660 (Spring 2021)
+##
+## This file contains the dataserver and memloc API.
+##
+## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+##
+## ---
+##
+## Author: wschor
+##
 
 import uuid
-
 
 class Memloc:
     """
@@ -19,7 +25,6 @@ class Memloc:
         """
         return uuid.uuid4().bytes
 
-
     def MakeFromBytes(self, bytes16: bytes) -> bytes:
         """
         Get specific memloc from 16 byte input
@@ -29,15 +34,12 @@ class Memloc:
         """
         return uuid.UUID(bytes=bytes16).bytes
 
-
 class Dataserver:
     """
     Dataserver implementation.
     """
     def __init__(self):
         self.data = {}
-
-
 
     def _validate(self, memloc: bytes) -> None:
         """
@@ -46,7 +48,6 @@ class Dataserver:
         if (not isinstance(memloc, bytes)) or (not len(memloc) == 16):
             print("ERROR: Memloc must be 16 bytes")
             raise Exception("InvalidMemloc")
-
 
     def Set(self, memloc: bytes, val: bytes) -> None:
         """
@@ -67,8 +68,6 @@ class Dataserver:
 
         self.data[memloc] = val
 
-
-
     def Get(self, memloc: bytes) -> bytes:
         """
         Retrieves a value from a memory location.
@@ -84,7 +83,6 @@ class Dataserver:
         else:
             raise ValueError("ValDoesNotExist")
 
-
     def Delete(self, memloc: bytes) -> None:
         """
         Delete a value from a memory location.
@@ -99,7 +97,6 @@ class Dataserver:
             del self.data[memloc]
         else:
             raise ValueError("ValDoesNotExist")
-
 
     ###################################
     # The below functions are useful for testing but should NOT be used in stencil.py

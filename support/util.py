@@ -1,14 +1,21 @@
-# wschor, Spring 2021
-"""
-This file contains some utility functions. You should **not** modify this file.
-"""
+##
+## util.py: Dropbox @ CSCI1660 (Spring 2021)
+##
+## This file contains the util API.
+##
+## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+##
+## ---
+##
+## Author: wschor
+##
 
 import json
 import base64
 
 def _print_bytes(b: bytes) -> None:
     """
-    A helper function to print bytes as base64. 
+    A helper function to print bytes as base64.
     """
     print(base64.b64encode(b).decode('utf-8'))
 

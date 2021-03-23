@@ -1,7 +1,14 @@
-# wschor, Spring 2021
-"""
-This file contains the cryptography API. You should **not** modify this file.
-"""
+##
+## crypto.py: Dropbox @ CSCI1660 (Spring 2021)
+##
+## This file contains the crypto API.
+##
+## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+##
+## ---
+##
+## Author: wschor
+##
 
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes, hmac, serialization, constant_time
@@ -115,8 +122,6 @@ def AsymmetricKeyGen() -> (AsymmetricEncryptKey, AsymmetricDecryptKey):
 
     return AsymmetricEncryptKey(public_key), AsymmetricDecryptKey(private_key)
 
-
-
 def AsymmetricEncrypt(EncryptionKey: AsymmetricEncryptKey, plaintext: bytes) -> bytes:
     """
      Using the public key, encrypt the plaintext
@@ -168,8 +173,6 @@ def SignatureKeyGen() -> (SignatureVerifyKey, SignatureSignKey):
 
     return SignatureVerifyKey(public_key), SignatureSignKey(private_key)
 
-
-
 def SignatureSign(SigningKey: SignatureSignKey, data: bytes) -> bytes:
     """
     Uses the private key key to sign the data.
@@ -191,8 +194,6 @@ def SignatureSign(SigningKey: SignatureSignKey, data: bytes) -> bytes:
         hashes.SHA512()
     )
     return signature
-
-
 
 def SignatureVerify(VerifyKey: SignatureVerifyKey, data: bytes, signature: bytes) -> bool:
     """
@@ -354,7 +355,6 @@ def SymmetricEncrypt(key: bytes, iv: bytes, plaintext: bytes) -> bytes:
 
     if len(key) != 16:
         raise ValueError
-
 
     padder = sym_padding.PKCS7(128).padder()
     padded_data = padder.update(plaintext)
