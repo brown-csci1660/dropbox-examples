@@ -27,8 +27,8 @@ from client import create_user, authenticate_user, User
 class ClientTests(unittest.TestCase):
     def setUp(self):
         """
-        This function is automatically called before every test is run. It clears the
-        dataserver and keyserver to a clean state for each test case.
+        This function is automatically called before every test is run. It
+        clears the dataserver and keyserver to a clean state for each test case.
         """
         dataserver.Clear()
         keyserver.Clear()
