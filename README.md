@@ -7,7 +7,7 @@ This is the stencil code for Dropbox. You will implement the functions defined i
 
 ## Installation
 
-To install the support code, you will need to install some dependencies (which are documented in the `requirements.txt` file). There are many ways to install Python packages. If you are confident that you can install the packages in `requirements.txt` on your own, you are free to do so however you wish. However, the TAs will only provide direct technical support for the strategy we recommend here.
+To install the support code, you will need to install some dependencies (which are documented in the `requirements.txt` file). There are many ways to install Python packages. If you are confident that you can install the packages in `requirements.txt` on your own, you are free to do so however you wish. However, the TAs can only provide direct technical support for the two strategies we recommend here.
 
 > *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
 
