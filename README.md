@@ -29,7 +29,7 @@ To use this code you need the [cryptography](https://cryptography.io/en/latest/)
 
 1. Make sure your virtual environment is active
 2. Make sure pip is up to date by running `pip install --upgrade pip`
-3. Inside the root directory of your repo, run `python3 -m pip install -r requirements.txt`
+3. Inside the root directory of your repo, run `python -m pip install -r requirements.txt`
 
 #### Testing the Installation
 
@@ -70,7 +70,12 @@ Inside the repo with your virtual environment active:
 		Success!
 		```
 
-		
+
+
+## Testing
+
+You should write tests in `test_client.py`. There are a few example tests in `test_client.py` as well as a stencil for your tests. To run the tests you can run `python -m unittest`. The tests will be run in alphabetical order. If you run the tests on the stencil code (with no changes), it will run six tests, five of which fail. 
+
 
 ## Department Machines
 
