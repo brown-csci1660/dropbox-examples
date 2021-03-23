@@ -29,7 +29,7 @@ To use this code you need the [cryptography](https://cryptography.io/en/latest/)
 
 1. Make sure your virtual environment is active
 2. Make sure pip is up to date by running `pip install --upgrade pip`
-3. Inside the root directory of your repo, run `python -m pip install -r requirements.txt`
+3. Inside the root directory of your repo, run `pip install -r requirements.txt`
 
 #### Testing the Installation
 
