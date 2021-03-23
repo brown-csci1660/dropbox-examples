@@ -31,7 +31,7 @@ def __detect_tags(s: str):
 
 def _prepare_bytes(o):
     """
-    A helper funtion for ObjToBytes
+    A helper funtion for ObjectToBytes
     """
     if isinstance(o, dict):
         result = {}
@@ -67,7 +67,7 @@ def _prepare_bytes(o):
 
 def _repair_bytes(o):
     """
-    A helper funtion for ObjToBytes
+    A helper funtion for ObjectToBytes
     """
     if isinstance(o, dict):
         result = {}
@@ -107,14 +107,14 @@ def _repair_bytes(o):
         print(f"ERROR: Undeserializable type {type(o)} detected! Valid types are [dict, list, int, str, float, bool, NoneType]")
         raise ValueError
 
-def ObjToBytes(o: object) -> bytes:
+def ObjectToBytes(o: object) -> bytes:
     """
     A helper function that will serialize objects to bytes using JSON.
     It can serialize arbitrary nestings of lists and dictionaries containing ints, floats, booleans, strs, Nones, and bytes.
 
     A note on bytes and strings:
     This function encodes all bytes as base64 strings in order to be json compliant.
-    The complimentary function, BytesToObj, will decode everything it detects to be a base64 string
+    The complimentary function, BytesToObject, will decode everything it detects to be a base64 string
     back to bytes. If you store a base64 formatted string, it would also be decoded to bytes.
 
     To alleviate this, the base64 string are prefixed with "^^^" and suffixed with "$$$", and the function
@@ -125,9 +125,9 @@ def ObjToBytes(o: object) -> bytes:
     o = _prepare_bytes(o)
     return json.dumps(o).encode()
 
-def BytesToObj(b: bytes) -> object:
+def BytesToObject(b: bytes) -> object:
     """
-    A helper function that will deserialize bytes to an object using JSON. See caveats in ObjToBytes().
+    A helper function that will deserialize bytes to an object using JSON. See caveats in ObjectToBytes().
     """
     obj = json.loads(b.decode())
     return _repair_bytes(obj)
