@@ -7,7 +7,7 @@ This is the stencil code for Dropbox. You will implement the functions defined i
 
 ## Installation
 
-To install the support code, you will need to install some dependencies; in particular, you will need the Python [cryptography](https://cryptography.io/en/latest/) package. (**Note**: You **should not** use this package directly in any code you write. Instead, use the API provided by the support code documented in the Dropbox Wiki.) There are many ways to install Python packages. If you are confident that you can install this package, you are free to do so however you wish. However, the TAs will only provide direct technical support for the strategy we recommend here.
+To install the support code, you will need to install some dependencies (which are documented in the `requirements.txt` file). There are many ways to install Python packages. If you are confident that you can install the packages in `requirements.txt` on your own, you are free to do so however you wish. However, the TAs will only provide direct technical support for the strategy we recommend here.
 
 > *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
 
