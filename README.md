@@ -71,7 +71,7 @@ You can then test your local environment setup with the following comamnds. Firs
 		```
 		Expecting two error messages...
 		ERROR: Keyserver tags must be strings, not <class 'int'>
-		ERROR: Keyserver keys must of type asmPublicKey, not <class 'int'>
+		ERROR: Keyserver keys must of type AsmPublicKey, not <class 'int'>
 		Success!
 		```
 
