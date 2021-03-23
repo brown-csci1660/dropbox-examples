@@ -9,9 +9,7 @@ This is the stencil code for Dropbox. You will implement the functions defined i
 
 To install the support code, you will need to install some dependencies (which are documented in the `requirements.txt` file). There are many ways to install Python packages. If you are confident that you can install the packages in `requirements.txt` on your own, you are free to do so however you wish. However, the TAs can only provide direct technical support for the two strategies we recommend here.
 
-> *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
-
-### Recommended Installation Option 1: Repl.it
+### Recommended Installation Option 1: Repl.it (in the Browser)
 
 > *Note*: This is an experimental installation option for the project. The TAs may not be able to provide technical support for this option; however, if you can get it to work, it's *very cool* and particularly convenient for working with your partner remotely.
 
@@ -24,7 +22,9 @@ You can then run Bash commands in the "Console" on the right-hand side of the sc
 
 Note that any time you (or your partner) want to work on your project in Repl.it, you should click the "Work in Repl.it" button from the repository page, not directly from your Repl.it account. This allows both you and your partner to work within the *same* Repl.it instance, which allows you to collaborate "Google Docs"-style.
 
-### Recommended Installation Option 2: `pip` virtual environments
+### Recommended Installation Option 2: `pip` virtual environments (on Your Local Machine)
+
+> *Note:* This strategy applies to only your personal machine! If you are working on a department machine, please see the `Department Machines` section below.
 
 Follow the instructions in the section below to set up your local environment for working on the project.
 
