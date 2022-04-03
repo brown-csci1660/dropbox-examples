@@ -1,5 +1,5 @@
 ##
-## client.py: Dropbox @ CSCI1660 (Spring 2021)
+## client.py: Dropbox @ CSCI1660 (Spring 2022)
 ##
 ## This is the file where all of your code for your Dropbox client
 ## implementation must go.
@@ -41,7 +41,7 @@ class User:
     def upload_file(self, filename: str, data: bytes) -> None:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/storage/upload-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/upload-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -49,7 +49,7 @@ class User:
     def download_file(self, filename: str) -> bytes:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/storage/download-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/download-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -57,7 +57,7 @@ class User:
     def append_file(self, filename: str, data: bytes) -> None:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/storage/append-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/append-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -65,7 +65,7 @@ class User:
     def share_file(self, filename: str, recipient: str) -> None:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/sharing/share-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/share-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -73,7 +73,7 @@ class User:
     def receive_file(self, filename: str, sender: str) -> None:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/sharing/receive-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/receive-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -81,7 +81,7 @@ class User:
     def revoke_file(self, filename: str, old_recipient: str) -> None:
         """
         The specification for this function is at:
-        http://dropbox.crewmate.academy/client-api/sharing/revoke-file.html
+        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/revoke-file.html
         """
         # TODO: Implement!
         raise util.DropboxError("Not Implemented")
@@ -89,7 +89,7 @@ class User:
 def create_user(username: str, password: str) -> User:
     """
     The specification for this function is at:
-    http://dropbox.crewmate.academy/client-api/authentication/create-user.html
+    http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/create-user.html
     """
     # TODO: Implement!
     raise util.DropboxError("Not Implemented")
@@ -97,7 +97,7 @@ def create_user(username: str, password: str) -> User:
 def authenticate_user(username: str, password: str) -> User:
     """
     The specification for this function is at:
-    http://dropbox.crewmate.academy/client-api/authentication/authenticate-user.html
+    http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/authenticate-user.html
     """
     # TODO: Implement!
     raise util.DropboxError("Not Implemented")
