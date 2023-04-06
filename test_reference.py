@@ -1,7 +1,15 @@
-##
-## test_client.py - Test for your client
-##
-##
+# test_reference.py
+#
+# This file imports the reference client and shows some example tests
+# for how to use it.  You can add/extend these tests if you want to
+# try things out to learn how the API works.
+#
+# Alternatively, to just try out using the reference in a Python
+# shell, run:
+# python3 test_reference.py
+#
+# This will import all of the libraries required and then start
+# an interactive REPL.
 
 import unittest
 import string
@@ -12,15 +20,11 @@ import support.util as util
 from support.dataserver import dataserver, memloc
 from support.keyserver import keyserver
 
-# Import your client
-import client as c
-
-# Import the reference client
-# Use this in place of the above line to test using the reference client
-#import dropbox_client_reference as c
+# Import the REFERENCE client
+import dropbox_client_reference as c
 
 
-class ClientTests(unittest.TestCase):
+class ReferenceTests(unittest.TestCase):
     def setUp(self):
         """
         This function is automatically called before every test is run. It
@@ -73,29 +77,7 @@ class ClientTests(unittest.TestCase):
 
         self.assertEqual(down_data, b'shared data')
 
-    def test_download_error(self):
-        """
-        Simple test that tests that downloading a file that doesn't exist
-        raise an error.
-        """
-        u = c.create_user("usr", "pswd")
 
-        # NOTE: When using `assertRaises`, the code that is expected to raise an
-        #       error needs to be passed to `assertRaises` as a lambda function.
-        self.assertRaises(util.DropboxError, lambda: u.download_file("file1"))
-
-    def test_the_next_test(self):
-        """
-        Implement more tests by defining more functions like this one!
-
-        Functions have to start with the word "test" to be recognized. Refer to
-        the Python `unittest` API for more information on how to write test
-        cases: https://docs.python.org/3/library/unittest.html
-        """
-        self.assertTrue(True)
-
-
-# This sets up this file to run the tests when running
-# python3 test_client.py
-if __name__ == '__main__':
-    unittest.main()
+# Start the REPL if this file is launched as the main program
+if __name__ == "__main__":
+    util.start_repl(locals())

@@ -95,11 +95,12 @@ class AsmPrivateKey:
 
 """
 These classes are wrappers around AsmPublicKey and AsmPrivateKey that
-are used to make type checking easier for encryption and decryption vs. signing and verifying.
+are used to make type checking easier for encryption and decryption
+vs. signing and verifying.
 
-Note that the underlying data is the same for both sets of keys (RSA keypairs). These classes
-are only wrappers to help enforce that we should not use the same keys for signing as we do
-for encryption.
+Note that the underlying data is the same for both sets of keys (RSA
+keypairs). These classes are only wrappers to help enforce that we
+should not use the same keys for signing as we do for encryption.
 """
 class AsymmetricEncryptKey(AsmPublicKey):
     pass
@@ -331,7 +332,13 @@ def PasswordKDF(password: str, salt: bytes, keyLen: int) -> bytes:
         algorithm=hashes.SHA256(),
         length=keyLen,
         salt=salt,
-        iterations=100000,
+        iterations=1000,  # NOTE:  We have decreased this value for testing.
+                          # A production version using PBKDF2 would use >= 10000
+                          # iterations to increase the cost of generating hashes.
+                          # Since we'll be generating a lot of hashes to create
+                          # users in each test, we use a lower value now
+                          # and could increase it when the client is ready
+                          # for deployment to real users.
     )
     key = kdf.derive(password.encode())
     return key
