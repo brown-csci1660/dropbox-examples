@@ -1,0 +1,2 @@
+# Force unix newlines on all platforms
+* text eol=lf
