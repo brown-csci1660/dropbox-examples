@@ -1,32 +1,27 @@
 ##
-## client.py: Dropbox @ CSCI1660 (Spring 2022)
-##
-## This is the file where all of your code for your Dropbox client
-## implementation must go.
+## client.py - Dropbox client implementation
 ##
 
-## WARNING: You MUST NOT change these default imports. If you change the default
-##          import statements in the stencil code, your implementation will be
-##          rejected by the autograder. (Our autograder actually enforces this
-##          this correctly, as opposed to the Crewmate Academy's autograder
-##          from the Handin project!)
+# ** Optional libraries, uncomment if you need them **
+# Search "python <name> library" for documentation
+#import string  # Python library with useful string constants
+#import dacite  # Helpers for serializing dicts into dataclasses
+#import pymerkle # Merkle tree implementation (CS1620/CS2660 only, but still optional)
 
-# Optional library containing some helpful string constants; not required to use
-# this in your implementation. See https://docs.python.org/3/library/string.html
-# for usage and documentation.
-import string
+## ** Support code libraries ****
+# The following imports load our support code from the "support"
+# directory.  See the Dropbox wiki for usage and documentation.
+import support.crypto as crypto                   # Our crypto library
+import support.util as util                       # Various helper functions
 
-# Imports the `crypto` and `util` libraries. See the Dropbox Wiki for usage and
-# documentation.
-import support.crypto as crypto
-import support.util as util
-
-# Imports the `dataserver`, `keyserver`, and `memloc` instances. See the Dropbox
-# Wiki for usage and documentation.
+# These imports load instances of the dataserver, keyserver, and memloc classes
+# to use in your client. See the Dropbox Wiki and setup guide for examples.
 from support.dataserver import dataserver, memloc
 from support.keyserver import keyserver
 
-# DO NOT EDIT ABOVE THIS LINE ##################################################
+# **NOTE**:  If you want to use any additional libraries, please ask on Ed
+# first.  You are NOT permitted to use any additional cryptographic functions
+# other than those provided by crypto.py, or any filesystem/networking libraries.
 
 class User:
     def __init__(self) -> None:
@@ -43,7 +38,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/upload-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def download_file(self, filename: str) -> bytes:
@@ -51,7 +46,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/download-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def append_file(self, filename: str, data: bytes) -> None:
@@ -59,7 +54,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/append-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def share_file(self, filename: str, recipient: str) -> None:
@@ -67,7 +62,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/share-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def receive_file(self, filename: str, sender: str) -> None:
@@ -75,7 +70,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/receive-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def revoke_file(self, filename: str, old_recipient: str) -> None:
@@ -83,7 +78,7 @@ class User:
         The specification for this function is at:
         http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/revoke-file.html
         """
-        # TODO: Implement!
+        # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
 def create_user(username: str, password: str) -> User:
@@ -91,7 +86,7 @@ def create_user(username: str, password: str) -> User:
     The specification for this function is at:
     http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/create-user.html
     """
-    # TODO: Implement!
+    # TODO: Implement
     raise util.DropboxError("Not Implemented")
 
 def authenticate_user(username: str, password: str) -> User:
@@ -99,5 +94,5 @@ def authenticate_user(username: str, password: str) -> User:
     The specification for this function is at:
     http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/authenticate-user.html
     """
-    # TODO: Implement!
+    # TODO: Implement
     raise util.DropboxError("Not Implemented")
