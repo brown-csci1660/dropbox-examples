@@ -1,13 +1,11 @@
 ##
-## keyserver.py: Dropbox @ CSCI1660 (Spring 2021)
+## keyserver.py - Keyserver Implementation
 ##
 ## This file contains the keyserver API.
 ##
-## DO NOT MODIFY THE CONTENTS OF THIS FILE.
-##
-## ---
-##
-## Author: wschor
+## WARNING:  DO NOT MODIFY THIS FILE.  This file will be replaced
+## with a different version in the autograder, so your changes will be
+## overwritten.
 ##
 
 from support.crypto import AsmPublicKey
@@ -79,9 +77,11 @@ class Keyserver:
         else:
             raise ValueError("IdentifierAlreadyTaken")
 
-    ###################################
-    # The below functions are useful for testing but should NOT be used in stencil.py
-    ###################################
+    ##################################################################
+    # NOTE: the following functions are provided for testing ONLY--you
+    # can use them to test functionality or attacks, but you should
+    # not use them in your client Implementation (ie, from client.py).
+    ##################################################################
 
     def GetMap(self) -> dict:
         """
@@ -92,7 +92,7 @@ class Keyserver:
         """
         return self.data
 
-    def Clear(self) -> dict:
+    def Clear(self):
         """
         Delete the entire server contents
         """

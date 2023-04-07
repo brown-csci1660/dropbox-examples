@@ -1,14 +1,15 @@
 ##
-## crypto.py: Dropbox @ CSCI1660 (Spring 2021)
+## crypto.py - Cryptographic API for Dropbox
 ##
-## This file contains the crypto API.
+## This file contains the crypto API.  All cryptographic operations in
+## your project should be performed using only the functions in this
+## file.
 ##
-## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+## WARNING:  DO NOT MODIFY THIS FILE.  This file will be replaced
+## with a different version in the autograder, so your changes will be
+## overwritten.
 ##
-## ---
-##
-## Author: wschor
-##
+
 
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes, hmac, serialization, constant_time
@@ -111,7 +112,7 @@ class SignatureVerifyKey(AsmPublicKey):
 class SignatureSignKey(AsmPrivateKey):
     pass
 
-def AsymmetricKeyGen() -> (AsymmetricEncryptKey, AsymmetricDecryptKey):
+def AsymmetricKeyGen() -> tuple[AsymmetricEncryptKey, AsymmetricDecryptKey]:
     """
      Generates a public-key pair for asymmetric encryption purposes.
 
@@ -163,7 +164,7 @@ def AsymmetricDecrypt(DecryptionKey: AsymmetricDecryptKey, ciphertext: bytes) ->
 
     return plaintext
 
-def SignatureKeyGen() -> (SignatureVerifyKey, SignatureSignKey):
+def SignatureKeyGen() -> tuple[SignatureVerifyKey, SignatureSignKey]:
     """
     Generates a public-key pair for digital signature purposes.
     Params: None
@@ -432,8 +433,8 @@ if __name__ == '__main__':
     assert(sk == sk2)
 
     # encrypt the same message with the pub key and its copy
-    cipher = AsymmetricEncrypt(pk, "CS166".encode())
-    cipher2 = AsymmetricEncrypt(pk2, "CS166".encode())
+    cipher = AsymmetricEncrypt(pk, "CS1660".encode())
+    cipher2 = AsymmetricEncrypt(pk2, "CS1660".encode())
 
     # decrypt with the non-matching sk to show they are the same
     plain = AsymmetricDecrypt(sk, cipher2)
@@ -443,14 +444,14 @@ if __name__ == '__main__':
 
     # compute a signature
     verify_key, signing_key = SignatureKeyGen()
-    data = "CS166".encode()
+    data = "CS1660".encode()
     signature = SignatureSign(signing_key, data)
     verification = SignatureVerify(verify_key, data, signature)
 
     assert(verification == True)
 
     # compute a hash (SHA512)
-    hash = Hash("CS166".encode())
+    hash = Hash("CS1660".encode())
     assert(len(hash) == 64)
 
     # check HMACs
@@ -459,8 +460,8 @@ if __name__ == '__main__':
     HMACEqual(hmac_val1, hmac_val2)
 
     # check HashKDF
-    hkdf1 = HashKDF("key".encode(), "CS166")
-    hkdf2 = HashKDF("key".encode(), "CS166")
+    hkdf1 = HashKDF("key".encode(), "CS1660")
+    hkdf2 = HashKDF("key".encode(), "CS1660")
     assert(hkdf1 == hkdf2)
 
     # using different purposes causes different keys
@@ -476,7 +477,7 @@ if __name__ == '__main__':
     # check symmetric encryption
     key = SecureRandom(16)
     iv = SecureRandom(16)
-    plaintext = "CS166 is the best class".encode()
+    plaintext = "CS1660 is the best class".encode()
 
     ciphertext = SymmetricEncrypt(key, iv, plaintext)
     plaintext2 = SymmetricDecrypt(key, ciphertext)

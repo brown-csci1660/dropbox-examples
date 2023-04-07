@@ -15,7 +15,6 @@ from support.keyserver import keyserver
 # Import your client
 import client as c
 
-# Import the reference client
 # Use this in place of the above line to test using the reference client
 #import dropbox_client_reference as c
 
@@ -95,7 +94,6 @@ class ClientTests(unittest.TestCase):
         self.assertTrue(True)
 
 
-# This sets up this file to run the tests when running
-# python3 test_client.py
+# Start the REPL if this file is launched as the main program
 if __name__ == '__main__':
-    unittest.main()
+    util.start_repl(locals())

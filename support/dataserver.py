@@ -1,14 +1,14 @@
 ##
-## dataserver.py: Dropbox @ CSCI1660 (Spring 2021)
+## dataserver.py - Dataserver Implementation
 ##
 ## This file contains the dataserver and memloc API.
 ##
-## DO NOT MODIFY THE CONTENTS OF THIS FILE.
+## WARNING:  DO NOT MODIFY THIS FILE.  This file will be replaced
+## with a different version in the autograder, so your changes will be
+## overwritten.
 ##
-## ---
-##
-## Author: wschor
-##
+
+
 
 import uuid
 
@@ -39,14 +39,14 @@ class Dataserver:
     Dataserver implementation.
     """
     def __init__(self):
-        self.data = {}
+        self.data = {}  # type: dict[bytes, bytes]
 
     def _validate(self, memloc: bytes) -> None:
         """
         Validates the format of a memloc. Not to be used externally.
         """
         if (not isinstance(memloc, bytes)) or (not len(memloc) == 16):
-            print("ERROR: Memloc must be 16 bytes")
+            print("ERROR: Memloc must be a bytes() object of size 16 bytes")
             raise Exception("InvalidMemloc")
 
     def Set(self, memloc: bytes, val: bytes) -> None:
@@ -98,20 +98,23 @@ class Dataserver:
         else:
             raise ValueError("ValDoesNotExist")
 
-    ###################################
-    # The below functions are useful for testing but should NOT be used in stencil.py
-    ###################################
+    ##################################################################
+    # NOTE: the following functions are provided for testing ONLY--you
+    # can use them to test functionality or attacks, but you should
+    # not use them in your client Implementation (ie, from client.py).
+    ##################################################################
 
     def GetMap(self) -> dict:
         """
-        Return the entire server contents as a dictionary
+        Return the entire server contents as a dictionary.  You can
+
 
         Params: None
         Returns: dict
         """
         return self.data
 
-    def Clear(self) -> dict:
+    def Clear(self):
         """
         Delete the entire server contents
         """
@@ -120,7 +123,7 @@ class Dataserver:
 dataserver = Dataserver()
 memloc = Memloc()
 
-# tests and usage examples
+# Here are some example usages and tests
 if __name__ == "__main__":
 
     loc1 = memloc.Make()

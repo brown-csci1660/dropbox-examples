@@ -1,1 +1,6 @@
+cffi==1.15.1
 cryptography==3.3.1
+dacite==1.8.0
+pycparser==2.21
+pymerkle==4.0.0
+six==1.16.0
