@@ -21,78 +21,53 @@ from support.keyserver import keyserver
 
 # **NOTE**:  If you want to use any additional libraries, please ask on Ed
 # first.  You are NOT permitted to use any additional cryptographic functions
-# other than those provided by crypto.py, or any filesystem/networking libraries.
+# other than those provided by crypto.py, or any filesystem/networking
+# libraries.
+
+
+def s_addr(s):
+    return memloc.MakeFromBytes(crypto.Hash(s.encode("utf-8"))[:16])
+
 
 class User:
     def __init__(self) -> None:
-        """
-        Class constructor for the `User` class.
-
-        You are free to add fields to the User class by changing the definition
-        of this function.
-        """
         pass
 
     def upload_file(self, filename: str, data: bytes) -> None:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/upload-file.html
-        """
-        # TODO: Implement
-        raise util.DropboxError("Not Implemented")
+        dataserver.Set(s_addr(filename), data)
 
     def download_file(self, filename: str) -> bytes:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/download-file.html
-        """
-        # TODO: Implement
-        raise util.DropboxError("Not Implemented")
+        return dataserver.Get(s_addr(filename))
 
     def append_file(self, filename: str, data: bytes) -> None:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/storage/append-file.html
-        """
         # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def share_file(self, filename: str, recipient: str) -> None:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/share-file.html
-        """
         # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def receive_file(self, filename: str, sender: str) -> None:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/receive-file.html
-        """
         # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
     def revoke_file(self, filename: str, old_recipient: str) -> None:
-        """
-        The specification for this function is at:
-        http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/sharing/revoke-file.html
-        """
         # TODO: Implement
         raise util.DropboxError("Not Implemented")
 
 def create_user(username: str, password: str) -> User:
-    """
-    The specification for this function is at:
-    http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/create-user.html
-    """
-    # TODO: Implement
-    raise util.DropboxError("Not Implemented")
+    info_addr = s_addr(username)
+    dataserver.Set(info_addr, password.encode("utf-8"))
+
+    return User() # Probably should do something else here...
 
 def authenticate_user(username: str, password: str) -> User:
-    """
-    The specification for this function is at:
-    http://cs.brown.edu/courses/csci1660/dropbox-wiki/client-api/authentication/authenticate-user.html
-    """
-    # TODO: Implement
-    raise util.DropboxError("Not Implemented")
+    info_addr = s_addr(username)
+    password_bytes = dataserver.Get(info_addr)
+
+    password_check = password_bytes.decode("utf-8")
+
+    if password != password_check:  # Hmmm...
+        raise util.DropboxError("Could not authenticate!")
+
+    return User()
