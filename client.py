@@ -29,6 +29,8 @@ def s_addr(s):
     return memloc.MakeFromBytes(crypto.Hash(s.encode("utf-8"))[:16])
 
 
+
+
 class User:
     def __init__(self) -> None:
         pass

@@ -1,6 +1,14 @@
 ##
 ## test_examples.py - Examples for using stencil components and testing
+## This file contains examples of how to use the Dataserver and
+## Keyserver as well as how to serialize various types of data you may
+## want to use in this project.
 ##
+## As you think about building your implementation, skim over these
+## examples for some ideas on how to represent you data.
+##
+## See the comments on individual tests for a description of what each
+## test does.
 ##
 
 import unittest
@@ -27,6 +35,8 @@ def s_addr(s):
 
 class DataserverExamples(unittest.TestCase):
 
+    # All data you encrypt/sign/store must be encoded as a bytes()
+    # object.  Here are some examples of turning strings into bytes
     def test_bytes_strings(self):
         s = "Hello world!" # A string
 
@@ -37,6 +47,7 @@ class DataserverExamples(unittest.TestCase):
         s_check = s_bytes.decode("utf-8")
         assert(s == s_check)
 
+    # Examples for working with memlocs
     def test_memlocs(self):
         # Random memloc
         m1 = memloc.Make()
@@ -45,7 +56,10 @@ class DataserverExamples(unittest.TestCase):
         bs = b"abcdef0123456789"
         m2 = memloc.MakeFromBytes(bs)
 
-        # From a custom string
+        # Want to use a string as a key instead?
+        # You can do this by hashing the string and then taking the
+        # last 16 bytes, like this!
+        # Note:  This is a GREAT place to make a helper function
         m3 = memloc.MakeFromBytes(crypto.Hash("{}@enc".format("alice").encode("utf-8"))[:16])
         #m3 = s_addr("{}@enc".format("alice")) # <---- *GREAT* place for a helper function!!!
 
@@ -54,6 +68,9 @@ class DataserverExamples(unittest.TestCase):
         dataserver.Set(m2, some_data)
         dataserver.Set(m3, some_data)
 
+    # Storing stuff in the dataserver:  the basic idea
+    # All data stored must be a bytes() object.  What if you want to
+    # store something else?  See the examples below!
     def test_dataserver_bytes(self):
         addr = s_addr("addr")
         some_data = crypto.SecureRandom(20)
@@ -65,6 +82,13 @@ class DataserverExamples(unittest.TestCase):
         check_data = dataserver.Get(addr)
         assert(some_data == check_data)
 
+    # If we want to store a dictionary, we need to serialize it to
+    # bytes() first.  The stencil provides two methods to serialize
+    # to/from bytes() objects: util.ObjectToBytes and
+    # util.ObjectFromBytes, which know how to serialize the following
+    # types:  int, str, bool, dict, list, bytes
+    # Here's an example for a dict.  For handling classes or more
+    # complex types, keep reading.
     def test_serialization_dict(self):
         info = {
             "a": 1,
@@ -82,12 +106,17 @@ class DataserverExamples(unittest.TestCase):
         info_check = util.BytesToObject(info_check_bytes) # Convert back to dict
         assert(info == info_check)
 
+    # Here's an example for how to serialize a class with custom fields
     def test_serialization_class(self):
         class SomeThing:
             def __init__(self, key: bytes, members: set[int]):
                 self.key = key
-                self.members = members
+                self.members = members  # <--- This is a set, which is
+                                        # also unsupported by ObjectToBytes!
 
+            # How do we handle this?  We can make a helper function
+            # like this, which converts this object into a dict and
+            # then uses ObjectToBytes (and another one to convert back
             def to_bytes(self):
                 return util.ObjectToBytes({
                     "key": self.key,
@@ -100,6 +129,7 @@ class DataserverExamples(unittest.TestCase):
                 return SomeThing(key=d["key"],
                                             members=set(d["members"]))
 
+        # ** Usage example **
         # Make an object and serialize it to bytes
         t = SomeThing(key=crypto.SecureRandom(10),
                                  members=set([1, 2, 3]))
@@ -171,6 +201,7 @@ class DataserverExamples(unittest.TestCase):
         assert(t.k_priv == r.k_priv)
         assert(t.some_addr == r.some_addr)
 
+    # If you like dataclasses, here's an example using Python's dataclasses
     def test_serialization_dataclass(self):
         @dataclasses.dataclass
         class Thing:
@@ -196,6 +227,7 @@ class DataserverExamples(unittest.TestCase):
 
         assert(t == r)
 
+### ** Examples for using the keyserver **
 class KeyserverExamples(unittest.TestCase):
 
     def setUp(self):
@@ -221,6 +253,7 @@ class KeyserverExamples(unittest.TestCase):
                           keyserver.Set, "alice", k2_pub) # Same as keyserver.Set("alice", k2_pub)
 
 
+## **Examples for testing attacks**
 class TestAttackExamples(unittest.TestCase):
 
     # Clear dataserver and keyserver between tests
