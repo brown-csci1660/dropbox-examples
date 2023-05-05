@@ -173,8 +173,8 @@ class DataserverExamples(unittest.TestCase):
                 d = util.BytesToObject(b)
                 return SomeThing(key=d["key"],
                                  members=set(d["members"]),
-                                 k_pub=d["k_pub"],
-                                 k_priv=d["k_priv"],
+                                 k_pub=crypto.AsmPublicKey.from_bytes(d["k_pub"]),
+                                 k_priv=crypto.AsmPrivateKey.from_bytes(d["k_priv"]),
                                  some_addr=d["some_addr"])
 
         # Make an object and serialize it to bytes
@@ -197,9 +197,14 @@ class DataserverExamples(unittest.TestCase):
 
         assert(t.key == r.key)
         assert(t.members == r.members)
-        assert(t.k_pub == r.k_pub)
-        assert(t.k_priv == r.k_priv)
         assert(t.some_addr == r.some_addr)
+
+        assert(isinstance(r.k_pub, crypto.AsmPublicKey))
+        assert(t.k_pub == r.k_pub)
+
+        assert(isinstance(r.k_priv, crypto.AsmPrivateKey))
+        assert(t.k_priv == r.k_priv)
+
 
     # If you like dataclasses, here's an example using Python's dataclasses
     def test_serialization_dataclass(self):
